@@ -18,7 +18,7 @@ public record CreateMissionAssignmentResource(
         @Min(value = 1, message = "Duration must be at least 1 minute") // Fast numerica validation, there is also one at the domain
         Integer estimatedDuration,
 
-        @NotBlank
+        @NotNull(message = "Requested date is mandatory")
         LocalDateTime requestedAt
 ) {
 }
