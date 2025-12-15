@@ -5,6 +5,9 @@ import com.spire.platform.u202310680.missions.domain.services.MissionAssignmentQ
 import com.spire.platform.u202310680.missions.interfaces.rest.resources.CreateMissionAssignmentResource;
 import com.spire.platform.u202310680.missions.interfaces.rest.resources.MissionAssignmentResource;
 import com.spire.platform.u202310680.missions.interfaces.rest.transform.MissionAssignmentAssembler;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -26,6 +29,12 @@ public class MissionAssignmentsController {
     }
 
     @PostMapping
+    @Operation(summary = "Create a new mission")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Mission created"),
+            @ApiResponse(responseCode = "400", description = "Bad request"),
+            @ApiResponse(responseCode = "500", description = "Internal server error")
+    })
     public ResponseEntity<MissionAssignmentResource> createMissionAssignment(@Valid @RequestBody CreateMissionAssignmentResource resource){
         var command = MissionAssignmentAssembler.toCommandFromResource(resource);
 
