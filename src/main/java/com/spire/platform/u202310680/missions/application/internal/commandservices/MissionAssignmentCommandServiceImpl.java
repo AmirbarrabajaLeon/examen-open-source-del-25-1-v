@@ -35,6 +35,12 @@ public class MissionAssignmentCommandServiceImpl implements MissionAssignmentCom
             throw new IllegalArgumentException("Mission assignment already exists for this satellite on the requested date");
         }
 
+        // VALIDATE IF THE ORBIT CLASS FROM THE INPUT EXISTS IN THE TABLE
+        var maxSafeDurationOpt = externalRegulationsService.fetchMaxSafeDurationByOrbitClass(command.orbitClass());
+
+        if (maxSafeDurationOpt.isEmpty()) {
+            throw new IllegalArgumentException("Orbit Class '" + command.orbitClass() + "' is not regulated or does not exist.");
+        }
         var missionAssignment = new MissionAssignment(
                 satelliteCode,
                 command.orbitClass(),
@@ -42,10 +48,14 @@ public class MissionAssignmentCommandServiceImpl implements MissionAssignmentCom
                 command.requestedAt());
 
         // Event
-        externalRegulationsService.fetchMaxSafeDurationByOrbitClass(command.orbitClass())
+        var maxSafeDuration = maxSafeDurationOpt.get();
+        missionAssignment.evaluateOrbitalEfficiency(maxSafeDuration);
+
+        /*different interesting way of doing it*/
+        /*externalRegulationsService.fetchMaxSafeDurationByOrbitClass(command.orbitClass())
                 .ifPresent(missionAssignment::evaluateOrbitalEfficiency);
                             // maxSafeDuration -> {
-                            //missionAssignment.evaluateOrbitalEfficiency(maxSafeDuration);
+                            //missionAssignment.evaluateOrbitalEfficiency(maxSafeDuration);*/
 
         missionAssignmentRepository.save(missionAssignment);
         return Optional.of(missionAssignment);
