@@ -1,6 +1,7 @@
 package com.spire.platform.u202310680.missions.interfaces.rest.resources;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 
 public record MissionAssignmentResource(
         Long id,
@@ -8,6 +9,8 @@ public record MissionAssignmentResource(
         String orbitClass,
         Integer estimatedDuration,
         String status,
-        LocalDateTime requestedAt
+        LocalDateTime requestedAt,
+        Date createdAt,
+        Date updatedAt
 ) {
 }

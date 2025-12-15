@@ -22,7 +22,9 @@ public class MissionAssignmentAssembler {
                 entity.getOrbitClass(),
                 entity.getEstimatedDuration(),
                 entity.getStatus().name(),
-                entity.getRequestedAt()
+                entity.getRequestedAt(),
+                entity.getCreatedAt(),
+                entity.getUpdatedAt()
         );
     }
 }
