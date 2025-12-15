@@ -4,9 +4,11 @@ import com.spire.platform.u202310680.regulations.domain.model.aggregates.OrbitTh
 import com.spire.platform.u202310680.regulations.domain.model.commands.CreateOrbitThresholdCommand;
 import com.spire.platform.u202310680.regulations.domain.services.OrbitThresholdCommandService;
 import com.spire.platform.u202310680.regulations.infrastructure.persistence.jpa.repositories.OrbitThresholdRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+@Service
 public class OrbitThresholdCommandServiceImpl implements OrbitThresholdCommandService {
     // Let's define our repository
     private final OrbitThresholdRepository orbitThresholdRepository;
