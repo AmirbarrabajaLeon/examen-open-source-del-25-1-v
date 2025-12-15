@@ -11,7 +11,7 @@ public class OrbitThreshold extends AuditableAbstractAggregateRoot<OrbitThreshol
     /**
      Integer ID and Auditable Attributes are inherited from AuditableAbstractAggregateRoot
      */
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String orbitClass;
 
     @Column(nullable = false)
