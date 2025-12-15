@@ -1,5 +1,6 @@
 package com.spire.platform.u202310680.missions.domain.model.aggregates;
 
+import com.spire.platform.u202310680.missions.domain.model.events.OrbitWindowUnderutilizedEvent;
 import com.spire.platform.u202310680.missions.domain.model.valueobjects.MissionAssignmentStatus;
 import com.spire.platform.u202310680.missions.domain.model.valueobjects.SatelliteCode;
 import com.spire.platform.u202310680.shared.domain.model.aggregates.AuditableAbstractAggregateRoot;
@@ -62,5 +63,16 @@ public class MissionAssignment extends AuditableAbstractAggregateRoot<MissionAss
         this.orbitClass = orbitClass;
         this.estimatedDuration = estimatedDuration;
         this.requestedAt = requestedAt;
+    }
+
+    public void evaluateOrbitalEfficiency(Integer maxSafeDuration){
+        double threshold = maxSafeDuration * 0.20;
+        if(this.estimatedDuration < threshold){
+            this.registerEvent(new OrbitWindowUnderutilizedEvent(
+                    this,
+                    this.getId(),
+                    this.satelliteCode.satelliteCode()
+            ));
+        }
     }
 }
